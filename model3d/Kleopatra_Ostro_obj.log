@@ -1,0 +1,18 @@
+INFO: 
+INFO: Obj Converter Import:
+INFO: Reading input file...
+INFO: Done reading input.
+INFO: Obj data import complete.
+INFO: Begin CAD File Read 'C:/Projects/przejsciowka/model3d/Kleopatra_Ostro.obj'
+
+INFO: 
+INFO:       Summary of Obj Entities
+INFO: 
+INFO: Entity Type                                                   Count
+INFO: -----------                                                   ------
+INFO: Vertex Count ...............................................:   2048
+INFO: Vertex Texture Count........................................:   0
+INFO: Vertex Normal Count.........................................:   0
+INFO: Face Count..................................................:   4092
+INFO: Group Count.................................................:   1
+INFO: Material Count..............................................:   0
