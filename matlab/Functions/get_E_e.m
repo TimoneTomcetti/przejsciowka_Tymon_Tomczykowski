@@ -7,9 +7,9 @@ n_f = faceNormal(model,faces_id);
 
 n_ab = (p_b - p_a)/norm(p_b - p_a);
 
-n_e(1,:) = cross(n_ab,n_f(1,:));
+n_e(1,:) = cross(n_ab*(-1),n_f(1,:));
 n_e(1,:) = n_e(1,:)/norm(n_e(1,:));
-n_e(2,:) = cross(n_ab*(-1),n_f(2,:));
+n_e(2,:) = cross(n_ab,n_f(2,:));
 n_e(2,:) = n_e(2,:)/norm(n_e(2,:));
 
 face_points_id(1,:) = model.ConnectivityList(faces_id(1),:);
@@ -34,10 +34,11 @@ end
 
 E_e = n_f(1,:)' * n_e(1,:) + n_f(2,:)' * n_e(2,:);
 
-color = ['r','b','y','g'];
-if plot == 1
+
+if strcmp(plot,'on')
+    color = ['r','b','y','g'];
 p_test = (p_a + p_b)/2;
-scale = 4000;
+scale = 1/10;
 hold on;
 quiver3(p_test(1,1),p_test(1,2),p_test(1,3), n_f(1,1)*scale,n_f(1,2)*scale,n_f(1,3)*scale,0.5,'color',color(color_i));
 quiver3(p_test(1,1),p_test(1,2),p_test(1,3), n_f(2,1)*scale,n_f(2,2)*scale,n_f(2,3)*scale,0.5,'color',color(color_i+1));
