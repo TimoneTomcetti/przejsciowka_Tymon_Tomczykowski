@@ -10,8 +10,8 @@ classdef polyhedron_obj < handle
                 model_name string
                 unit_scale double
             end
-            cd_splitted = split(pwd,'\');
-            path_to_model = fullfile(cd_splitted{1:end-1},"model3d",model_name);
+            cd_splitted = split(mfilename('fullpath'),'\');
+            path_to_model = fullfile(cd_splitted{1:end-2},"model3d",model_name);
             model_temp = stlread(path_to_model);
             model = triangulation(model_temp.ConnectivityList,model_temp.Points * unit_scale);
 

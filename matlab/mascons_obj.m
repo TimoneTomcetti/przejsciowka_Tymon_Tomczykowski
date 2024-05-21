@@ -4,17 +4,19 @@ classdef mascons_obj < handle
         points {mustBeNumeric} % positions of the mascons points
         R {mustBeNumeric} % radius of the spheres
         V {mustBeNumeric} % gravitational potential
+        M_i {mustBeNumeric} % mass of one point
     end
 
     methods
-        function obj = mascons_obj(model_name,mas_r, unit_scale) % constructor, divides objects into mascons
+        function obj = mascons_obj(model_name,mas_r, unit_scale, bulk_density) % constructor, divides objects into mascons
             arguments
                 model_name string
                 mas_r double
                 unit_scale double
+                bulk_density double
             end
-            cd_splitted = split(pwd,'\');
-            path_to_model = fullfile(cd_splitted{1:end-1},"model3d",model_name);
+            cd_splitted = split(mfilename('fullpath'),'\');
+            path_to_model = fullfile(cd_splitted{1:end-2},"model3d",model_name);
             model_temp = stlread(path_to_model);
             model = triangulation(model_temp.ConnectivityList,model_temp.Points * unit_scale);
 
@@ -44,22 +46,22 @@ classdef mascons_obj < handle
             obj.stl_model = model;
             obj.points = mas_grid_p;
             obj.R = mas_r;
-        end
-
-        function calculate(obj,r,bulk_density) % method calculating gravitational potential
-
-            G = 6.6743e-11;
 
             Vol = stlVolume(obj.stl_model.Points',obj.stl_model.ConnectivityList');
             M = bulk_density * Vol;
-            M_i = M/length(obj.points(:,1));
+            obj.M_i = M/length(obj.points(:,1));
+        end
+
+        function calculate(obj,r) % method calculating gravitational potential
+
+            G = 6.6743e-11;
 
             obj.V = zeros(length(r(:,1)),1);
 
             for i = 1:length(r(:,1))
                 rq = r(i,:);
                 for k = 1:length(obj.points(:,1))
-                    obj.V(i,1) = obj.V(i,1) + -(G * M_i/(norm(rq - obj.points(k,:))));
+                    obj.V(i,1) = obj.V(i,1) + -(G * obj.M_i/(norm(rq - obj.points(k,:))));
                 end
             end
         end
@@ -139,12 +141,13 @@ classdef mascons_obj < handle
                 unit_scale = 1/1000;
                 x_surf = r(:,1)*unit_scale;
                 y_surf = r(:,2)*unit_scale;
-                z_surf = obj.V*scale*unit_scale;
+                z_surf = r(:,3)*unit_scale+obj.V*scale*unit_scale;
             elseif strcmp(opt2.Units,'m')
                 x_surf = r(:,1)*unit_scale;
                 y_surf = r(:,2)*unit_scale;
-                z_surf = obj.V*scale*unit_scale;
+                z_surf = r(:,3)*unit_scale+obj.V*scale*unit_scale;
             end
+            
             
 
             xv = linspace(min(x_surf), max(x_surf), 50);
