@@ -1,4 +1,4 @@
-close all;
+% close all;
 clear;
 addpath 'C:\Projects\personal\przejsciowka\matlab\Functions'
 
@@ -22,7 +22,7 @@ V_scale = 10^2; % scale of the potential plot
 
 %% Main section
 % Creating mascons model
-spherical_harmonics_method = spherical_harmonics_obj(model_fname,unit_scale,bulk_density,8);
+spherical_harmonics_method = spherical_harmonics_obj(model_fname,unit_scale,bulk_density,3);
 
 centroid = spherical_harmonics_method.calculate_centroid();
 % Calculating gravitational potential
