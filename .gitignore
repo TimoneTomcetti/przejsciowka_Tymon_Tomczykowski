@@ -1,4 +1,3 @@
-literatura/*.pdf
-literatura/podeslane_artykuly/*.pdf
-matlab/Output_data/Plots/*.png
-*.txt
+literatura/*
+matlab/Output_data/Plots/*
+!matlab/Output_data/Plots/.gitkeep
