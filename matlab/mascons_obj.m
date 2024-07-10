@@ -8,17 +8,12 @@ classdef mascons_obj < handle
     end
 
     methods
-        function obj = mascons_obj(model_name,mas_r, unit_scale, bulk_density) % constructor, divides objects into mascons
+        function obj = mascons_obj(model,mas_r, bulk_density) % constructor, divides objects into mascons
             arguments
-                model_name string
+                model triangulation
                 mas_r double
-                unit_scale double
                 bulk_density double
             end
-            cd_splitted = split(mfilename('fullpath'),'\');
-            path_to_model = fullfile(cd_splitted{1:end-2},"model3d",model_name);
-            model_temp = stlread(path_to_model);
-            model = triangulation(model_temp.ConnectivityList,model_temp.Points * unit_scale);
 
             cub_minmax = [min(model.Points); max(model.Points)];
 

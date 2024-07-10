@@ -5,15 +5,10 @@ classdef polyhedron_obj < handle
     end
 
     methods
-        function obj = polyhedron_obj(model_name, unit_scale)
+        function obj = polyhedron_obj(model)
             arguments
-                model_name string
-                unit_scale double
+                model triangulation
             end
-            cd_splitted = split(mfilename('fullpath'),'\');
-            path_to_model = fullfile(cd_splitted{1:end-2},"model3d",model_name);
-            model_temp = stlread(path_to_model);
-            model = triangulation(model_temp.ConnectivityList,model_temp.Points * unit_scale);
 
             obj.stl_model = model;
         end
@@ -28,8 +23,7 @@ classdef polyhedron_obj < handle
             if ~isfield(opt1,"Test_plot")
                 opt1.Test_plot = 'off';
             end
-            
-            addpath Functions\
+           
 
             set_of_edges = obj.stl_model.edges;
             set_of_faces = obj.stl_model.ConnectivityList;

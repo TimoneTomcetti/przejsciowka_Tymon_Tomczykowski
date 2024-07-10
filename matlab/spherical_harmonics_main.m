@@ -1,6 +1,7 @@
-% close all;
+close all;
 clear;
 addpath 'C:\Projects\personal\przejsciowka\matlab\Functions'
+addpath 'C:\Projects\personal\przejsciowka\matlab\Input_data'
 
 %% Initial data (TODO in json file)
 % Asteroid data
@@ -22,10 +23,7 @@ V_scale = 10^2; % scale of the potential plot
 
 %% Main section
 % Creating mascons model
-spherical_harmonics_method = spherical_harmonics_obj(model_fname,unit_scale,bulk_density,3);
-
-centroid = spherical_harmonics_method.calculate_centroid();
-% Calculating gravitational potential
+spherical_harmonics_method = spherical_harmonics_obj(model_fname,unit_scale,bulk_density,3,1.144612198106038e+05);
 spherical_harmonics_method.calculate_coefs(bulk_density,centroid);
 
 % Point masses method

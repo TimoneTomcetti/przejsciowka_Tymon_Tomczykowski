@@ -7,37 +7,28 @@ classdef spherical_harmonics_obj < handle
         M
         a
         n_max
+        bulk_density
     end
 
     methods
-        function obj = spherical_harmonics_obj(model_name, unit_scale, bulk_density, n_max)
+        function obj = spherical_harmonics_obj(model, bulk_density, n_max, a)
             arguments
-                model_name string
-                unit_scale double
+                model triangulation
                 bulk_density double
                 n_max double
+                a double
             end
             obj.n_max = n_max;
-            cd_splitted = split(mfilename('fullpath'),'\');
-            path_to_model = fullfile(cd_splitted{1:end-2},"model3d",model_name);
-            model_temp = stlread(path_to_model);
-            model = triangulation(model_temp.ConnectivityList,model_temp.Points * unit_scale);
-
+            obj.bulk_density = bulk_density;
             obj.stl_model = model;
             Vol = stlVolume(obj.stl_model.Points',obj.stl_model.ConnectivityList');
             obj.M = bulk_density * Vol;
-            obj.a = 1.144612198106038e+05;
+            obj.a = a;
         end
 
-        function centroid = calculate_centroid(obj)
-            points = obj.stl_model.Points;
-            centroid = sum(points)/length(points(:,1));
-        end
-
-        function calculate_coefs_point_masses(obj,centroid,mas_grid_p,M_i)
+        function calculate_coefs_point_masses(obj,mas_grid_p,M_i)
             arguments
                 obj spherical_harmonics_obj
-                centroid double
                 mas_grid_p double
                 M_i double
             end
@@ -56,7 +47,7 @@ classdef spherical_harmonics_obj < handle
                 for n = 0:n_max
                     for m = 0:n
                         for i = 1:length(mas_grid_p(:,1))
-                            mas_point = mas_grid_p(i,:) - centroid;
+                            mas_point = mas_grid_p(i,:);
                             x_prim = mas_point(1);
                             y_prim = mas_point(2);
                             z_prim = mas_point(3);
@@ -104,11 +95,9 @@ classdef spherical_harmonics_obj < handle
 
         end
 
-        function calculate_coefs(obj,bulk_density,centroid)
+        function calculate_coefs(obj)
             arguments
                 obj spherical_harmonics_obj
-                bulk_density double
-                centroid double
             end
             set_of_edges = obj.stl_model.edges;
             set_of_faces = obj.stl_model.ConnectivityList;
@@ -139,7 +128,7 @@ classdef spherical_harmonics_obj < handle
                 for m = 0:n
                     for f = 1:num_of_faces
                         face = set_of_faces(f,:);
-                        face_points = obj.stl_model.Points(face',:) - [centroid;centroid;centroid];
+                        face_points = obj.stl_model.Points(face',:);
                         J = face_points';
                         x_prim = J(1,:);
                         y_prim = J(2,:);
@@ -169,8 +158,8 @@ classdef spherical_harmonics_obj < handle
                     end
                 end
             end
-            obj.C_nm = obj.C_nm*bulk_density;
-            obj.S_nm = obj.S_nm*bulk_density;
+            obj.C_nm = obj.C_nm*obj.bulk_density;
+            obj.S_nm = obj.S_nm*obj.bulk_density;
 
         end
 
@@ -197,6 +186,46 @@ classdef spherical_harmonics_obj < handle
                 obj.V(i,1) = G*obj.M/r * (1+sum_n);
                 sum_n = 0;
             end
+        end
+
+        function write_coefs_werner(obj)
+            C_fname = ['C_werner_',num2str(obj.n_max),'.txt'];
+            C_fpath = fullfile(pwd,"Input_data","Coefs",C_fname);
+            writematrix(obj.C_nm,C_fpath)
+
+            S_fname = ['S_werner_',num2str(obj.n_max),'.txt'];
+            S_fpath = fullfile(pwd,"Input_data","Coefs",S_fname);
+            writematrix(obj.S_nm,S_fpath)
+        end
+
+        function write_coefs_mas(obj, mas_r)
+            C_fname = ['C_mas_',num2str(obj.n_max),'_',num2str(mas_r),'.txt'];
+            C_fpath = fullfile(pwd,"Input_data","Coefs",C_fname);
+            writematrix(obj.C_nm,C_fpath)
+
+            S_fname = ['S_mas_',num2str(obj.n_max),'_',num2str(mas_r),'.txt'];
+            S_fpath = fullfile(pwd,"Input_data","Coefs",S_fname);
+            writematrix(obj.S_nm,S_fpath)
+        end
+
+        function read_coefs_werner(obj)
+            C_fname = ['C_werner_',num2str(obj.n_max),'.txt'];
+            C_fpath = fullfile(pwd,"Input_data","Coefs",C_fname);
+            S_fname = ['S_werner_',num2str(obj.n_max),'.txt'];
+            S_fpath = fullfile(pwd,"Input_data","Coefs",S_fname);
+
+            obj.C_nm = readmatrix(C_fpath);
+            obj.S_nm = readmatrix(S_fpath);
+        end
+
+        function read_coefs_mas(obj, mas_r)
+            C_fname = ['C_mas_',num2str(obj.n_max),'_',num2str(mas_r),'.txt'];
+            C_fpath = fullfile(pwd,"Input_data","Coefs",C_fname);
+            S_fname = ['S_mas_',num2str(obj.n_max),'_',num2str(mas_r),'.txt'];
+            S_fpath = fullfile(pwd,"Input_data","Coefs",S_fname);
+
+            obj.C_nm = readmatrix(C_fpath);
+            obj.S_nm = readmatrix(S_fpath);
         end
 
 

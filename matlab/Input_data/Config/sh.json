@@ -1,0 +1,18 @@
+{
+    "main_configuration": {
+        "model_file": "Kleopatra_Ostro.stl",
+        "unit_scale": 1000,
+        "bulk_density": 3600,
+        "query_points_file": "test.txt",
+        "plot_unit": "m",
+        "V_scale": 100
+    },
+    "method": {
+        "method_name": "Spherical Harmonics",
+        "degree": 2,
+        "a": 1.144612198106038e+05,
+        "calculation_algorithm": "werner",
+        "mas_r": 1000
+    }
+
+}
