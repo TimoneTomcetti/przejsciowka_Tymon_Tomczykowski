@@ -5,8 +5,8 @@ addpath 'C:\Projects\personal\przejsciowka\matlab\Input_data'
 
 %% Initial data (TODO in json file)
 % Asteroid data
-model_fname = "Kleopatra_Ostro.stl";
-bulk_density = 3600; % kg/m^3
+model_fname = "sphere20.stl";
+bulk_density = 1; % kg/m^3
 
 % Field query points
 x = linspace(-300000,300000,30); % m
@@ -19,7 +19,7 @@ unit_scale = 1000; % for models provided not in meters
 
 % Ploting configuration
 plot_unit = 'm'; % units of plots (km or m)
-V_scale = 10^2; % scale of the potential plot
+V_scale = 10^10; % scale of the potential plot
 
 %% Main section
 % Creating mascons model

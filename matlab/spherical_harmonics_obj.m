@@ -154,7 +154,7 @@ classdef spherical_harmonics_obj < handle
                         end
                         obj.C_nm(n+1,m+1) = obj.C_nm(n+1,m+1) + integrate_simplex(c(:,m+1,f),det(J));
                         obj.S_nm(n+1,m+1) = obj.S_nm(n+1,m+1) + integrate_simplex(s(:,m+1,f),det(J));
-                        disp(['face ', num2str(f), ' of ', num2str(num_of_faces), ', n = ', num2str(n)]);
+                        disp(['face ', num2str(f), ' of ', num2str(num_of_faces), ', n = ', num2str(n), ', m = ', num2str(m)]);
                     end
                 end
             end
@@ -167,7 +167,7 @@ classdef spherical_harmonics_obj < handle
             obj.V = zeros(length(r_query(:,1)),1);
             G = 6.6743e-11;
             for i = 1:length(r_query(:,1))
-                rq = r_query(i,:) - centroid;
+                rq = r_query(i,:);
                 r = norm(rq);
                 lat = asin(rq(3)/r);
                 lon = atan2(rq(2),rq(1));

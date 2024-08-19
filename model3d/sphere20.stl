@@ -1,0 +1,142 @@
+solid MATLAB_1
+facet normal 0.356822103 0 0.934172332
+  outer loop
+   vertex 0 0.525731087 0.850650787
+   vertex 0 -0.525731087 0.850650787
+   vertex 0.850650787 0 0.525731087
+  endloop
+ endfacet
+facet normal 0 0.934172332 0.356822103
+  outer loop
+   vertex 0 0.525731087 0.850650787
+   vertex 0.525731087 0.850650787 0
+   vertex -0.525731087 0.850650787 0
+  endloop
+ endfacet
+facet normal -0.577350259 0.577350259 0.577350259
+  outer loop
+   vertex 0 0.525731087 0.850650787
+   vertex -0.525731087 0.850650787 0
+   vertex -0.850650787 0 0.525731087
+  endloop
+ endfacet
+facet normal 0.577350259 0.577350259 0.577350259
+  outer loop
+   vertex 0 0.525731087 0.850650787
+   vertex 0.850650787 0 0.525731087
+   vertex 0.525731087 0.850650787 0
+  endloop
+ endfacet
+facet normal -0.356822103 0 0.934172332
+  outer loop
+   vertex 0 0.525731087 0.850650787
+   vertex -0.850650787 0 0.525731087
+   vertex 0 -0.525731087 0.850650787
+  endloop
+ endfacet
+facet normal -0.356822103 -0 -0.934172332
+  outer loop
+   vertex 0 0.525731087 -0.850650787
+   vertex 0 -0.525731087 -0.850650787
+   vertex -0.850650787 0 -0.525731087
+  endloop
+ endfacet
+facet normal 0.577350259 0.577350259 -0.577350259
+  outer loop
+   vertex 0 0.525731087 -0.850650787
+   vertex 0.525731087 0.850650787 0
+   vertex 0.850650787 0 -0.525731087
+  endloop
+ endfacet
+facet normal 0 0.934172332 -0.356822103
+  outer loop
+   vertex 0 0.525731087 -0.850650787
+   vertex -0.525731087 0.850650787 0
+   vertex 0.525731087 0.850650787 0
+  endloop
+ endfacet
+facet normal -0.577350259 0.577350259 -0.577350259
+  outer loop
+   vertex 0 0.525731087 -0.850650787
+   vertex -0.850650787 0 -0.525731087
+   vertex -0.525731087 0.850650787 0
+  endloop
+ endfacet
+facet normal 0.356822103 0 -0.934172332
+  outer loop
+   vertex 0 0.525731087 -0.850650787
+   vertex 0.850650787 0 -0.525731087
+   vertex 0 -0.525731087 -0.850650787
+  endloop
+ endfacet
+facet normal 0 -0.934172332 -0.356822103
+  outer loop
+   vertex 0 -0.525731087 -0.850650787
+   vertex 0.525731087 -0.850650787 0
+   vertex -0.525731087 -0.850650787 0
+  endloop
+ endfacet
+facet normal -0.577350259 -0.577350259 -0.577350259
+  outer loop
+   vertex 0 -0.525731087 -0.850650787
+   vertex -0.525731087 -0.850650787 0
+   vertex -0.850650787 0 -0.525731087
+  endloop
+ endfacet
+facet normal 0.577350259 -0.577350259 -0.577350259
+  outer loop
+   vertex 0 -0.525731087 -0.850650787
+   vertex 0.850650787 0 -0.525731087
+   vertex 0.525731087 -0.850650787 0
+  endloop
+ endfacet
+facet normal 0.577350259 -0.577350259 0.577350259
+  outer loop
+   vertex 0 -0.525731087 0.850650787
+   vertex 0.525731087 -0.850650787 0
+   vertex 0.850650787 0 0.525731087
+  endloop
+ endfacet
+facet normal 0 -0.934172332 0.356822103
+  outer loop
+   vertex 0 -0.525731087 0.850650787
+   vertex -0.525731087 -0.850650787 0
+   vertex 0.525731087 -0.850650787 0
+  endloop
+ endfacet
+facet normal -0.577350259 -0.577350259 0.577350259
+  outer loop
+   vertex 0 -0.525731087 0.850650787
+   vertex -0.850650787 0 0.525731087
+   vertex -0.525731087 -0.850650787 0
+  endloop
+ endfacet
+facet normal 0.934172332 0.356822103 0
+  outer loop
+   vertex 0.525731087 0.850650787 0
+   vertex 0.850650787 0 0.525731087
+   vertex 0.850650787 0 -0.525731087
+  endloop
+ endfacet
+facet normal 0.934172332 -0.356822103 0
+  outer loop
+   vertex 0.525731087 -0.850650787 0
+   vertex 0.850650787 0 -0.525731087
+   vertex 0.850650787 0 0.525731087
+  endloop
+ endfacet
+facet normal -0.934172332 -0.356822103 0
+  outer loop
+   vertex -0.525731087 -0.850650787 0
+   vertex -0.850650787 0 0.525731087
+   vertex -0.850650787 0 -0.525731087
+  endloop
+ endfacet
+facet normal -0.934172332 0.356822103 0
+  outer loop
+   vertex -0.525731087 0.850650787 0
+   vertex -0.850650787 0 -0.525731087
+   vertex -0.850650787 0 0.525731087
+  endloop
+ endfacet
+endsolid MATLAB_1

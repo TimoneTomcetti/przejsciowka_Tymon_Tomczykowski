@@ -4,7 +4,7 @@ addpath 'C:\Projects\personal\przejsciowka\matlab\Functions'
 addpath 'C:\Projects\personal\przejsciowka\matlab\Input_data'
 
 % Configuration file name
-config_fname = "polyhedron.json";
+config_fname = "sh.json";
 
 %% Reading config
 config_path = fullfile(pwd,"Input_data","Config",config_fname);

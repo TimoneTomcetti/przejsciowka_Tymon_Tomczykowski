@@ -9,7 +9,7 @@
     },
     "method": {
         "method_name": "Spherical Harmonics",
-        "degree": 2,
+        "degree": 50,
         "a": 1.144612198106038e+05,
         "calculation_algorithm": "werner",
         "mas_r": 1000

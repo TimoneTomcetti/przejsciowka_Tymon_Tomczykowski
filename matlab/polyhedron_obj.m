@@ -2,6 +2,7 @@ classdef polyhedron_obj < handle
     properties
         stl_model
         V {mustBeNumeric}
+        r {mustBeNumeric}
     end
 
     methods
@@ -13,7 +14,7 @@ classdef polyhedron_obj < handle
             obj.stl_model = model;
         end
 
-        function calculate(obj,r,bulk_density, opt1)
+        function V = calculate(obj,r,bulk_density, opt1)
             arguments
                 obj polyhedron_obj
                 r double
@@ -62,7 +63,9 @@ classdef polyhedron_obj < handle
                 disp([num2str(i) '/' num2str(length(r(:,1)))]);
             end
 
-            obj.V = -0.5 * G * bulk_density * (sum_e - sum_f);
+            V = -0.5 * G * bulk_density * (sum_e - sum_f);
+            obj.V = V;
+            obj.r = r;
         end
 
 
@@ -87,8 +90,8 @@ classdef polyhedron_obj < handle
             end
 
             figure();
-            trisurf(model_temp,'FaceColor','black','FaceAlpha',0.2);
-            hold on;
+            % trisurf(model_temp,'FaceColor','black','FaceAlpha',0.2);
+            % hold on;
 
             if strcmp(opt2.Units,'km')
                 unit_scale = 1/1000;
@@ -102,20 +105,29 @@ classdef polyhedron_obj < handle
             end
 
 
-            xv = linspace(min(x_surf), max(x_surf), 50);
-            yv = linspace(min(y_surf), max(y_surf), 50);
-            [X_surf,Y_surf] = meshgrid(xv, yv);
-            Z_surf = griddata(x_surf,y_surf,z_surf,X_surf,Y_surf);
+            % xv = linspace(min(x_surf), max(x_surf), 50);
+            % yv = linspace(min(y_surf), max(y_surf), 50);
+            % [X_surf,Y_surf] = meshgrid(xv, yv);
+            % Z_surf = griddata(x_surf,y_surf,z_surf,X_surf,Y_surf);
+            X_surf = reshape(x_surf,[sqrt(length(x_surf)),sqrt(length(x_surf))]);
+            Y_surf = reshape(y_surf,[sqrt(length(x_surf)),sqrt(length(x_surf))]);
+            Z_surf = reshape(z_surf,[sqrt(length(x_surf)),sqrt(length(x_surf))]);
             surf(X_surf, Y_surf, Z_surf);
             xlabel(['x [',opt2.Units,']'],'Interpreter','latex');
             ylabel(['y [',opt2.Units,']'],'Interpreter','latex');
             zlabel(['z [',opt2.Units,']'],'Interpreter','latex');
             title('Polyhedron Method Gravitational Potential');
-            axis equal;
+            % axis equal;
             cb = colorbar;
             set(cb,'TickLabels',cb.Ticks/(scale*unit_scale));
             cb.Label.String = 'V [J/kg]';
             axes = gca;
+        end
+
+        function write_V(obj,fname)
+            V_fname = ['poly_V_',fname,'.txt'];
+            V_fpath = fullfile(pwd,"Input_data","Potential_data",V_fname);
+            writematrix([obj.r,obj.V],V_fpath);
         end
     end
 end
