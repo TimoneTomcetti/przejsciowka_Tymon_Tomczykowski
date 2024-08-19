@@ -1,3 +1,4 @@
 literatura/*
+latex/*
 matlab/Output_data/Plots/*
 !matlab/Output_data/Plots/.gitkeep
