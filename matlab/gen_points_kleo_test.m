@@ -1,6 +1,9 @@
 clear;
-close all;
+% close all;
+addpath 'C:\Projects\personal\przejsciowka\matlab\Functions'
+addpath 'C:\Projects\personal\przejsciowka\matlab\Input_data'
 
+%% Reading model
 unit_scale = 1000;
 
 model_fname = 'Kleopatra_Ostro.stl';
@@ -12,9 +15,16 @@ centroid = calculate_centroid(model_temp);
 model = triangulation(model_temp.ConnectivityList,model_temp.Points - centroid);
 clear model_fname cd_splitted model_path model_temp centroid
 
-model_new.vertices = model.Points;
-model_new.faces = model.ConnectivityList;
-for i = 1:length(model.Points(:,1))
-    dist(i) = norm(model.Points(i,:));
-end
-dist_max = max(dist);
+
+a = -200000;
+b = 200000;
+n = 100;
+rq = gen_points_kleo(a,b,n,model);
+
+trimesh(model);
+hold on;
+scatter3(rq(:,1),rq(:,2),rq(:,3));
+axis equal;
+
+writematrix(rq,"rand_kleo.txt");
+

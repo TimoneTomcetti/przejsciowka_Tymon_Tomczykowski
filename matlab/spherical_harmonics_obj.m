@@ -8,6 +8,7 @@ classdef spherical_harmonics_obj < handle
         a
         n_max
         bulk_density
+        r
     end
 
     methods
@@ -185,6 +186,7 @@ classdef spherical_harmonics_obj < handle
                 end
                 obj.V(i,1) = G*obj.M/r * (1+sum_n);
                 sum_n = 0;
+                obj.r = r_query;
             end
         end
 
@@ -278,6 +280,12 @@ classdef spherical_harmonics_obj < handle
             set(cb,'TickLabels',cb.Ticks/(scale*unit_scale));
             cb.Label.String = 'V [J/kg]';
             axes = gca;
+        end
+
+        function write_V(obj,fname)
+            V_fname = ['sh_V_',fname,'.txt'];
+            V_fpath = fullfile(pwd,"Input_data","Potential_data",V_fname);
+            writematrix([obj.r,obj.V],V_fpath);
         end
     end
 end

@@ -1,7 +1,13 @@
 clear;
-% close all;
+close all;
 addpath 'C:\Projects\personal\przejsciowka\matlab\Functions'
 addpath 'C:\Projects\personal\przejsciowka\matlab\Input_data'
+
+r_fname = 'rand_out.txt';
+r_path = fullfile(pwd,"Input_data","Query_points",r_fname);
+rq = readmatrix(r_path);
+clear r_fname r_path
+
 
 %% Reading model
 model_fname = 'sphere20.stl';
@@ -32,34 +38,50 @@ model_temp = stlread(model_path);
 model1280 = triangulation(model_temp.ConnectivityList,model_temp.Points);
 clear model_fname cd_splitted model_path model_temp centroid
 
-%% Creating query points
-x = linspace(-3,3,30); % m
-y = x;
-[X,Y] = meshgrid(x);
-rq = [X(:),Y(:),zeros(length(X(:)),1)];
-
-%% Creating objects
+%% Creating objects 
 
 n = 10;
 bulk_density = 1;
 a = 1;
+sh20 = spherical_harmonics_obj(model20,bulk_density,n,a);
+sh20.calculate_coefs();
+sh80 = spherical_harmonics_obj(model80,bulk_density,n,a);
+sh80.calculate_coefs();
+sh320 = spherical_harmonics_obj(model320,bulk_density,n,a);
+sh320.calculate_coefs();
+sh1280 = spherical_harmonics_obj(model1280,bulk_density,n,a);
+sh1280.calculate_coefs();
 
-sh_method_20 = spherical_harmonics_obj(model20,bulk_density,n,a);
-sh_method_20.calculate_coefs();
-sh_method_20.calculate(sh_method.C_nm,sh_method.S_nm,rq);
-sh_method_20.plot_V(rq,V_scale,'Units','m');
+
+%% Calculating potential
+
+tic
+sh20.calculate(sh20.C_nm,sh20.S_nm,rq);
+t20 = toc
+tic
+sh80.calculate(sh80.C_nm,sh80.S_nm,rq);
+t80 = toc
+tic
+sh320.calculate(sh320.C_nm,sh320.S_nm,rq);
+t320 = toc
+tic
+sh1280.calculate(sh1280.C_nm,sh1280.S_nm,rq);
+t1280 = toc
+
+sh20.write_V('rand_mesh_20');
+sh80.write_V('rand_mesh_80');
+sh320.write_V('rand_mesh_320');
+sh1280.write_V('rand_mesh_1280');
 
 
-M = 4/3 * pi * a^3;
-G = 6.6743e-11;
-for i = 1:length(rq(:,1))
-    r = norm(rq(i,:));
-    if r > 1
-        V(i) = -G*M/r;
-    else
-        V(i) = -G*M* (3*a^2 - r^2)/(2*a^3);
-    end
-end
-V_sar = reshape(V,[length(x),length(x)]) * V_scale;
-hold on;
-surf(X,Y,V_sar,'FaceAlpha',0.5);
+
+
+% f1 = figure();
+% scatter3(rq(:,1),rq(:,2),rq(:,3),'filled','red');
+% hold on;
+% [x_s,y_s,z_s] = sphere;
+% surf(x_s,y_s,z_s,'FaceAlpha',0.2);
+% xlim([a,b]);
+% ylim([a,b]);
+% zlim([a,b]);
+% daspect([1 1 1]);

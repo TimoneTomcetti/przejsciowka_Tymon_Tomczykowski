@@ -5,6 +5,7 @@ classdef mascons_obj < handle
         R {mustBeNumeric} % radius of the spheres
         V {mustBeNumeric} % gravitational potential
         M_i {mustBeNumeric} % mass of one point
+        r {mustBeNumeric} % query points
     end
 
     methods
@@ -59,6 +60,7 @@ classdef mascons_obj < handle
                     obj.V(i,1) = obj.V(i,1) + -(G * obj.M_i/(norm(rq - obj.points(k,:))));
                 end
             end
+            obj.r = r;
         end
 
         function axes = plot_mascons(obj,opt1,opt2) % method plotting mascons model
@@ -81,7 +83,6 @@ classdef mascons_obj < handle
                 model_temp = triangulation(model_temp.ConnectivityList,model_temp.Points * unit_scale);
             end
 
-            figure();
             trisurf(model_temp,'FaceColor','black','FaceAlpha',0.2);
             hold on;
             if strcmp(opt1.Spheres,'on')
@@ -94,7 +95,7 @@ classdef mascons_obj < handle
                     if strcmp(opt2.Units,'km')
                         surf(x_s./1000,y_s./1000,z_s./1000);
                     elseif strcmp(opt2.Units,'m')
-                        surf(x_s,y_s,z_s);
+                        surf(x_s,y_s,z_s,'LineWidth',0.1);
                     end
                 end
             else
@@ -104,7 +105,7 @@ classdef mascons_obj < handle
             xlabel(['x [',opt2.Units,']'],'Interpreter','latex');
             ylabel(['y [',opt2.Units,']'],'Interpreter','latex');
             zlabel(['z [',opt2.Units,']'],'Interpreter','latex');
-            title('Mascons Method Model');
+            title([num2str(length(obj.points(:,1))), ' points']);
             axis equal;
             axes = gca;
         end
@@ -159,6 +160,12 @@ classdef mascons_obj < handle
             set(cb,'TickLabels',cb.Ticks/(scale*unit_scale));
             cb.Label.String = 'V [J/kg]';
             axes = gca;
+        end
+
+        function write_V(obj,fname)
+            V_fname = ['mass_V_',fname,'.txt'];
+            V_fpath = fullfile(pwd,"Input_data","Potential_data",V_fname);
+            writematrix([obj.r,obj.V],V_fpath);
         end
     end
 end

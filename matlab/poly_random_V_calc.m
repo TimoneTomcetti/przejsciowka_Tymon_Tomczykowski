@@ -1,7 +1,13 @@
 clear;
-% close all;
+close all;
 addpath 'C:\Projects\personal\przejsciowka\matlab\Functions'
 addpath 'C:\Projects\personal\przejsciowka\matlab\Input_data'
+
+r_fname = 'rand_in.txt';
+r_path = fullfile(pwd,"Input_data","Query_points",r_fname);
+rq = readmatrix(r_path);
+clear r_fname r_path
+
 
 %% Reading model
 model_fname = 'sphere20.stl';
@@ -38,50 +44,36 @@ poly80 = polyhedron_obj(model80);
 poly320 = polyhedron_obj(model320);
 poly1280 = polyhedron_obj(model1280);
 
-%% Creating query points
-x = linspace(-3,3,30); % m
-y = x;
-[X,Y] = meshgrid(x);
-rq = [X(:),Y(:),zeros(length(X(:)),1)];
-
 %% Calculating potential
 bulk_density = 1;
 
-V20 = poly20.calculate(rq,bulk_density);
-V80 = poly80.calculate(rq,bulk_density);
-V320 = poly320.calculate(rq,bulk_density);
-V1280 = poly1280.calculate(rq,bulk_density);
+tic
+poly20.calculate(rq,bulk_density);
+t20 = toc
+tic
+poly80.calculate(rq,bulk_density);
+t80 = toc
+tic
+poly320.calculate(rq,bulk_density);
+t320 = toc
+tic
+poly1280.calculate(rq,bulk_density);
+t1280 = toc
+
+poly20.write_V('rand_in20');
+poly80.write_V('rand_in80');
+poly320.write_V('rand_in320');
+poly1280.write_V('rand_in1280');
 
 
 
 
-% 
-% % V_scale = 4*10^9;
-% V_scale = 1;
-% 
-% x = linspace(-3,3,20); % m
-% y = x;
-% [X,Y] = meshgrid(x);
-% rq = [X(:),Y(:),zeros(length(X(:)),1)];
-% 
-% polyhedron_method = polyhedron_obj(model);
-% polyhedron_method.calculate(rq,1);
-% polyhedron_method.plot_V(rq,V_scale,'Units','m');
-% 
-% 
-% a = 1;
-% M = 4/3 * pi * a^3;
-% G = 6.6743e-11;
-% for i = 1:length(rq(:,1))
-%     r = norm(rq(i,:));
-%     if r > 1
-%         V(i) = -G*M/r;
-%     else
-%         V(i) = -G*M* (3*a^2 - r^2)/(2*a^3);
-%     end
-% end
-% V_sar = reshape(V,[length(x),length(x)]) * V_scale;
+% f1 = figure();
+% scatter3(rq(:,1),rq(:,2),rq(:,3),'filled','red');
 % hold on;
-% surf(X,Y,V_sar,'FaceAlpha',0.5);
-
-
+% [x_s,y_s,z_s] = sphere;
+% surf(x_s,y_s,z_s,'FaceAlpha',0.2);
+% xlim([a,b]);
+% ylim([a,b]);
+% zlim([a,b]);
+% daspect([1 1 1]);
